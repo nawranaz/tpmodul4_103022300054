@@ -25,6 +25,41 @@ class KodePos
     }
 }
 
+class DoorMachine
+{
+    enum State { TERKUNCI, TERBUKA };
+    private State currentState;
+
+    public DoorMachine()
+    {
+        currentState = State.TERKUNCI;
+        Console.WriteLine("Pintu terkunci");
+    }
+
+    public void ProcessCommand(string command)
+    {
+        if (command == "BUKA" && currentState == State.TERKUNCI)
+        {
+            currentState = State.TERBUKA;
+            Console.WriteLine("Pintu tidak terkunci");
+        }
+        else if (command == "KUNCI" && currentState == State.TERBUKA)
+        {
+            currentState = State.TERKUNCI;
+            Console.WriteLine("Pintu terkunci");
+        } else if (command == "BUKA" && currentState == State.TERBUKA)
+        {
+            Console.WriteLine("Pintu sudah terbuka sebelumnya");
+        } else if (command == "KUNCI" && currentState == State.TERKUNCI)
+        {
+            Console.WriteLine("Pintu sudah terkunci sebelumnya");
+        } else if (command != "EXIT")
+        {
+            Console.WriteLine("Perintah tidak valid.");
+        }
+    }
+}
+
 class Program
 {
     static void Main()
@@ -41,5 +76,15 @@ class Program
         Console.WriteLine("Kode Pos Maleer: " + KodePos.GetKodePos("Maleer"));
         Console.WriteLine("Kode Pos Samoja: " + KodePos.GetKodePos("Samoja"));
         Console.WriteLine("Kode Pos ngarang: " + KodePos.GetKodePos("ngarang"));
+
+        DoorMachine pintu = new DoorMachine();
+        string command;
+        do
+        {
+            Console.Write("Masukkan Perintah (BUKA/KUNCI/EXIT): ");
+            command = Console.ReadLine().ToUpper();
+            pintu.ProcessCommand(command);
+        } while (command != "EXIT");
+        Console.WriteLine("EXIT SCREEN");
     }
 }
